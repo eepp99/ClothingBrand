@@ -20,15 +20,15 @@ export default function App() {
   const product = PRODUCTS[activeModel];
 
   return (
-    <div className="relative w-full h-screen bg-[#f7f7f8] overflow-hidden text-gray-900">
+    <div className="relative w-full min-h-[100dvh] md:h-screen bg-[#f7f7f8] overflow-x-hidden md:overflow-hidden text-gray-900 flex flex-col md:block">
       
       {/* 3D Canvas wrapper */}
-      <div className="absolute inset-0 z-10">
+      <div className="relative md:absolute w-full h-[55vh] min-h-[400px] md:h-auto md:min-h-0 md:inset-0 z-10 shrink-0 order-3 md:order-none touch-pan-y">
          <Scene activeModel={activeModel} color={activeColor} lightIntensity={lightIntensity} />
       </div>
 
       {/* Header */}
-      <header className="absolute top-0 left-0 right-0 p-6 flex justify-between items-center z-20 pointer-events-none">
+      <header className="relative md:absolute top-0 left-0 right-0 p-6 flex justify-between items-center z-20 pointer-events-none shrink-0 order-1 md:order-none">
          <div className="pointer-events-auto">
            <h1 className="text-2xl font-display font-bold tracking-tighter">CHROMA™</h1>
          </div>
@@ -39,7 +39,7 @@ export default function App() {
       </header>
 
       {/* Product Foreground Info Overlay */}
-      <div className="absolute w-full left-0 top-[12%] md:top-[15%] md:left-20 md:w-auto z-20 pointer-events-none flex flex-col items-center md:items-start text-center md:text-left px-6 md:px-0">
+      <div className="relative md:absolute w-full left-0 md:top-[15%] md:left-20 md:w-auto z-20 pointer-events-none flex flex-col items-center md:items-start text-center md:text-left px-6 md:px-0 mt-4 md:mt-0 shrink-0 order-2 md:order-none">
         <AnimatePresence mode="wait">
           <motion.div
             key={product.id}
@@ -63,12 +63,12 @@ export default function App() {
       </div>
 
       {/* Color Picker & Navigation Bottom */}
-      <div className="absolute bottom-6 left-6 right-6 md:bottom-12 md:left-20 md:right-20 flex flex-col md:flex-row justify-between items-end md:items-center z-20 pointer-events-none">
+      <div className="relative md:absolute md:bottom-12 md:left-20 md:right-20 flex flex-col md:flex-row justify-between items-center md:items-end z-20 pointer-events-none shrink-0 px-6 pb-12 pt-6 md:p-0 order-4 md:order-none gap-8 md:gap-0">
         
         {/* Controls */}
-        <div className="pointer-events-auto flex flex-col sm:flex-row md:flex-col gap-6 mb-8 md:mb-0 self-start md:self-auto">
+        <div className="pointer-events-auto flex flex-col sm:flex-row md:flex-col gap-6 md:gap-6 w-full md:w-auto justify-center md:justify-start items-center md:items-start md:self-auto">
           {/* Lighting Control */}
-          <div className="flex flex-col gap-3">
+          <div className="flex flex-col gap-3 items-center md:items-start">
             <p className="text-[10px] sm:text-xs font-sans font-bold uppercase tracking-widest text-gray-400">Lighting</p>
             <input 
               type="range" 
@@ -77,20 +77,20 @@ export default function App() {
               step="0.1" 
               value={lightIntensity} 
               onChange={(e) => setLightIntensity(parseFloat(e.target.value))} 
-              className="w-32 sm:w-40 md:w-48 accent-gray-800 cursor-pointer h-2 bg-gray-200 rounded-lg appearance-none"
+              className="w-48 sm:w-56 md:w-48 accent-gray-800 cursor-pointer h-2 bg-gray-200 rounded-lg appearance-none"
               aria-label="Light Intensity"
             />
           </div>
           
           {/* Colors */}
-          <div className="flex flex-col gap-3">
+          <div className="flex flex-col gap-3 items-center md:items-start">
             <p className="text-[10px] sm:text-xs font-sans font-bold uppercase tracking-widest text-gray-400">Select Color</p>
-            <div className="flex gap-2 sm:gap-3 flex-wrap">
+            <div className="flex gap-3 flex-wrap justify-center md:justify-start max-w-[280px] md:max-w-none">
              {COLORS.map((c) => (
                 <button
                    key={c.hex}
                    onClick={() => setActiveColor(c.hex)}
-                   className={`w-8 h-8 sm:w-10 sm:h-10 rounded-full outline-none transition-all duration-300 cursor-pointer ${activeColor === c.hex ? 'scale-110 ring-2 ring-offset-2 ring-gray-800 ring-offset-[#f7f7f8]' : 'hover:scale-110 border border-black/10'}`}
+                   className={`w-10 h-10 rounded-full outline-none transition-all duration-300 cursor-pointer ${activeColor === c.hex ? 'scale-110 ring-2 ring-offset-2 ring-gray-800 ring-offset-[#f7f7f8]' : 'hover:scale-110 border border-black/10'}`}
                    style={{ backgroundColor: c.hex }}
                    aria-label={`Select ${c.name}`}
                    title={c.name}
@@ -101,17 +101,17 @@ export default function App() {
         </div>
 
         {/* Carousel Prev/Next */}
-        <div className="pointer-events-auto flex gap-4 self-end md:self-auto">
+        <div className="pointer-events-auto flex gap-4 w-full md:w-auto justify-center md:justify-end md:self-auto mt-4 md:mt-0">
            <button 
              onClick={prevModel}
-             className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-white/50 backdrop-blur-md border border-black/10 flex items-center justify-center hover:bg-black hover:text-white hover:border-black transition-colors cursor-pointer"
+             className="w-14 h-14 rounded-full bg-white/50 backdrop-blur-md border border-black/10 flex items-center justify-center hover:bg-black hover:text-white hover:border-black transition-colors cursor-pointer"
              aria-label="Previous product"
            >
              <ChevronLeft size={24} />
            </button>
            <button 
              onClick={nextModel}
-             className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-white/50 backdrop-blur-md border border-black/10 flex items-center justify-center hover:bg-black hover:text-white hover:border-black transition-colors cursor-pointer"
+             className="w-14 h-14 rounded-full bg-white/50 backdrop-blur-md border border-black/10 flex items-center justify-center hover:bg-black hover:text-white hover:border-black transition-colors cursor-pointer"
              aria-label="Next product"
            >
              <ChevronRight size={24} />
