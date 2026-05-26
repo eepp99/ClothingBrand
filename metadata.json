@@ -1,0 +1,6 @@
+{
+  "name": "Chroma Threads 3D",
+  "description": "An interactive 3D clothing brand demo where users can swipe through products and customize colors.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
