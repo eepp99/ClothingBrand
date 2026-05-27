@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+import React, { Suspense, useState, useEffect } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Environment, ContactShadows, Float } from '@react-three/drei';
 import { Shirt, Shoe, Beanie } from './Clothes';
@@ -10,6 +10,15 @@ interface SceneProps {
 }
 
 export default function Scene({ activeModel, color, lightIntensity }: SceneProps) {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile(); // Check on mount
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   return (
     <Canvas camera={{ position: [0, 0, 10], fov: 45 }}>
       <ambientLight intensity={0.5 * lightIntensity} />
@@ -19,7 +28,7 @@ export default function Scene({ activeModel, color, lightIntensity }: SceneProps
         <Environment preset="studio" />
         
         <Float speed={2} rotationIntensity={0.2} floatIntensity={0.5}>
-          <group position={[0, 0, 0]} scale={0.75}>
+          <group position={[0, 0, 0]} scale={isMobile ? 1.0 : 0.75}>
              <Shirt color={color} visible={activeModel === 0} />
              <Shoe color={color} visible={activeModel === 1} />
              <Beanie color={color} visible={activeModel === 2} />
